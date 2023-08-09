@@ -1,0 +1,10 @@
+module TEST2 (
+	input wire [7:0] A,
+	input wire [7:0] B,
+	output wire [7:0] Y
+);
+
+	// assign Y = {A[7:4],B[1:0],2'b01};
+	assign Y = {2A[3:0]};
+
+endmodule

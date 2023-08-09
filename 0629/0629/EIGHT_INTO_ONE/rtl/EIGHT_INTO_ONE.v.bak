@@ -1,0 +1,26 @@
+module EIGHT_INTO_ONE (
+	input wire [7:0] A,
+	input wire [7:0] B,
+	input wire [7:0] C,
+	input wire [7:0] D,
+	input wire [7:0] E,
+	input wire [7:0] F,
+	input wire [7:0] G,
+	input wire [7:0] H,
+	output wire [7:0] P
+);
+
+reg SELECT;
+
+case(SELECT)
+	0: assign P = A;
+	1: assign P = B;
+	2: assign P = C;
+	3: assign P = D;
+	4: assign P = E;
+	5: assign P = F;
+	6: assign P = G;
+	7: assign P = H;
+endcase
+
+endmodule

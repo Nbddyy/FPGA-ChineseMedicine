@@ -1,0 +1,53 @@
+`timescale 1ns/1ps
+
+module EIGHT_INTO_ONE_tb ();
+
+reg [7:0] A;
+reg [7:0] B;
+reg [7:0] C;
+reg [7:0] D;
+reg [7:0] E;
+reg [7:0] F;
+reg [7:0] G;
+reg [7:0] H;
+reg [2:0] SEL;
+wire [7:0] P;
+
+initial begin
+	A = 6; 
+	B = 6; 
+	C = 6; 
+	D = 6; 
+	E = 6; 
+	F = 6; 
+	G = 6; 
+	H = 6; 
+	SEL = 6; 
+	#200;
+	$stop;
+end
+
+always #10 A = {$random} % 256;
+always #10 B = {$random} % 256;
+always #10 C = {$random} % 256;
+always #10 D = {$random} % 256;
+always #10 E = {$random} % 256;
+always #10 F = {$random} % 256;
+always #10 G = {$random} % 256;
+always #10 H = {$random} % 256;
+always #10 SEL = {$random} % 8;
+
+EIGHT_INTO_ONE EIGHT_INTO_ONE(
+	.A(A),
+	.B(B),
+	.C(C),
+	.D(D),
+	.E(E),
+	.F(F),
+	.G(G),
+	.H(H),
+	.SEL(SEL),
+	.P(P)
+);
+
+endmodule

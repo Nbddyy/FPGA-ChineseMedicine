@@ -1,0 +1,29 @@
+`timescale 1ns/1ps
+
+module MAX_MODULE_tb ();
+
+	reg [7:0] A;
+	reg [7:0] B;
+	reg [7:0] C;
+	wire [7:0] P;
+
+	initial begin
+		A = 8'd10;
+		B = 8'd20;
+		C = 8'd30;
+		#200;
+		$stop;
+	end
+
+	always #10 A = {$random} % 256;
+	always #10 B = {$random} % 256;
+	always #10 C = {$random} % 256;
+
+	MAX_MODULE MAX_MODULE (
+		.A(A),
+		.B(B),
+		.C(C),
+		.P(P)
+	);
+
+endmodule

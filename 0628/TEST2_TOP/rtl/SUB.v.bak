@@ -1,0 +1,9 @@
+module SUB (
+	input wire [7:0] E,
+	input wire [7:0] F,
+	output wire [8:0] sub_result	
+);
+
+assign sub_result = E - F;
+
+endmodule : SUB

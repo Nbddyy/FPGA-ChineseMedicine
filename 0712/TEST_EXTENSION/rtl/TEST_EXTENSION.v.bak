@@ -1,0 +1,54 @@
+module TEST_EXTENSION
+#(
+	parameter max = 32'd24
+)
+(
+	input clk,
+	input rst_n,
+	output reg [3:0] led_state
+);
+
+	reg [31:0] temp;
+	always@(posedge clk or negedge rst_n) begin
+		if(!rst_n) begin
+			temp <= 32'd0;
+		end else if(temp == max) begin
+			temp <= 32'd0;
+		end else begin
+			temp <= temp + 32'd1;
+		end
+	end
+
+	reg [5:0] flag;
+	always @(posedge clk or negedge rst_n) begin
+		if(~rst_n) begin
+			flag <= 6'd0;
+		end else if(flag == 6'd39) begin
+			flag <= 6'd0;
+		end else if(temp == max) begin
+			flag <= flag + 6'd1;
+		end else begin
+			flag <= flag;
+		end
+	end
+
+	always @(posedge clk or negedge rst_n) begin 
+		if(~rst_n) begin
+			led_state <= 4'b1110;
+		end else if(temp == max) begin
+			if(flag == 6'd19 || flag == 6'd39) begin
+				led_state <= led_state
+			end else begin
+				case(flag >= 6'd19 && flag <= 6'd38)
+					1'd1: led_state <= {{led_state[0]},{led_state[3:1]}};
+					default: led_state <= {{led_state[2:0]},{led_state[3]}};
+				endcase
+			end
+		end else begin
+			led_state <= led_state;
+		end
+	end
+
+
+
+endmodule

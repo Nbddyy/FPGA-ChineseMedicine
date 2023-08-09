@@ -1,0 +1,17 @@
+module TEST_CNT (
+	input CLK, 
+	input RST_N,
+	output CNT
+);
+
+	//练习1
+	reg [7:0] tmp1;
+	always@(posedge CLK or negedge RST_N) begin
+		if (!RST_N) begin
+			tmp1 <= 0;
+		end else begin
+			tmp1 <= tmp + 1;
+		end
+	end
+
+endmodule

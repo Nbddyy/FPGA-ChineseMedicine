@@ -1,0 +1,13 @@
+`timescale 1ns/1ps
+
+module CNT_tb ();
+
+always #10 clk = ~clk;
+
+CNT CNT_1 (
+	.clk(clk),
+	.rst_n(rst_n),
+	.counter(counter)
+);
+
+endmodule

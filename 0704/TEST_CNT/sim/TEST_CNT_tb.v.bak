@@ -1,0 +1,19 @@
+`timescale 1ns/1ps
+
+module TEST_CNT_tb ();
+
+	initial begin
+		CLK = 0;
+		RST_N = 0;
+		#10
+		RST_N = 1;
+	end
+
+	always #10 CLK = ~CLK;
+
+	module TEST_CNT (
+		.CLK(CLK), 
+		.RST_N(RST_N),
+		.CNT(CNT)
+	);
+endmodule

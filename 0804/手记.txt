@@ -1,0 +1,5 @@
+1 配置SCFIFO核时，配置到Simulation Libraries时没有默认给出对应所需的Altera仿真库
+2 一切准备就绪后，编译后报错，Can't find "lpm_width" & "lpm_numwords"
+
+
+问题总结：SCFIFO属于原语，不能使用

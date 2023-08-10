@@ -18,4 +18,5 @@ rdreq：两种情况下置0
 
 我们这里定义一个两位宽的输入用来标识上传的数据属于哪个缓存FIFO通道数据。
 
-![1691654039001](C:\Users\Hasee\AppData\Roaming\Typora\typora-user-images\1691654039001.png)
+![image](https://github.com/Nbddyy/FPGA-ChineseMedicine/assets/95341178/bd3ea217-3464-4fd9-9389-a6c5e26f3781)
+

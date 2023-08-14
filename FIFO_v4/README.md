@@ -1,4 +1,4 @@
-## FIFO_v3
+## FIFO_v4
 
 
 
@@ -30,8 +30,11 @@
 
 ### 版图设计：
 
-![1691718623679](C:\Users\Hasee\AppData\Roaming\Typora\typora-user-images\1691718623679.png)
+![1691805202146](assets/1691805202146.png)
 
 ### 数据帧:
 
-![1691721645972](C:\Users\Hasee\AppData\Roaming\Typora\typora-user-images\1691721645972.png)
+通过控制非IDLE和读使能信号来增加数据帧头（输入解决方案）；
+<font color = "red">避免两个变量相互作为判断条件情况的出现</font>
+
+![1691752849999](assets/1691752849999.png)

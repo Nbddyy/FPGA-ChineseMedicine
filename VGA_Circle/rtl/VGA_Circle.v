@@ -1,4 +1,4 @@
-module VGA_Solid_Color (
+module VGA_Circle (
 	input clk,
 	input rst_n,
 	output hsync,

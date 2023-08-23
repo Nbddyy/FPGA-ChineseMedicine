@@ -1,6 +1,6 @@
 
 `timescale 1ns/1ps
-module tb_VGA_Circle (); /* this is automatically generated */
+module tb_VGA_Ellipses (); /* this is automatically generated */
 
 	reg clk;
 	reg rst_n;
@@ -19,6 +19,6 @@ module tb_VGA_Circle (); /* this is automatically generated */
 	wire        vsync;
 	wire [15:0] rgb;
 
-	VGA_Circle inst_VGA_Circle (.clk(clk), .rst_n(rst_n), .hsync(hsync), .vsync(vsync), .rgb(rgb));
+	VGA_Ellipses inst_VGA_Ellipses (.clk(clk), .rst_n(rst_n), .hsync(hsync), .vsync(vsync), .rgb(rgb));
 
 endmodule

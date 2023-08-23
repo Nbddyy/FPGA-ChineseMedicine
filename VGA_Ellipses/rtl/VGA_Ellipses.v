@@ -1,4 +1,4 @@
-module VGA_Circle (
+module VGA_Ellipses (
 	input clk,
 	input rst_n,
 	output hsync,

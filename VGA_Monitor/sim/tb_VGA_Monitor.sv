@@ -1,6 +1,6 @@
 
 `timescale 1ns/1ps
-module tb_VGA_Ellipses (); /* this is automatically generated */
+module tb_VGA_Monitor (); /* this is automatically generated */
 
 	reg clk;
 	reg rst_n;
@@ -14,11 +14,20 @@ module tb_VGA_Ellipses (); /* this is automatically generated */
 
 	always #10 clk <= !clk;
 
+	
+
 	// (*NOTE*) replace reset, clock, others
 	wire        hsync;
 	wire        vsync;
 	wire [15:0] rgb;
 
-	VGA_Ellipses inst_VGA_Ellipses (.clk(clk), .rst_n(rst_n), .hsync(hsync), .vsync(vsync), .rgb(rgb));
+	VGA_Monitor inst_VGA_Monitor (
+		.clk(clk),
+		.rst_n(rst_n),
+		.key_in(key_in),
+		.hsync(hsync),
+		.vsync(vsync),
+		.rgb(rgb)
+	);
 
 endmodule

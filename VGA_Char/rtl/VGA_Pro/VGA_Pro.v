@@ -8,15 +8,16 @@ module VGA_Pro (
 );
 
 	/*定义显示屏显示模块的五种状态*/
-	parameter WHITE = 5'b00001;
-	parameter BLACK = 5'b00010;
-	parameter RED = 5'b00100;
-	parameter GREEN = 5'b01000;
-	parameter MONITOR = 5'b10000;
+	parameter WHITE = 6'b000_001;
+	parameter BLACK = 6'b000_010;
+	parameter RED = 6'b000_100;
+	parameter GREEN = 6'b001_000;
+	parameter MONITOR = 6'b010_000;
+	parameter CHAR = 6'b100_000;
 
 	wire [9:0] pix_x;
 	wire [9:0] pix_y;
-	reg [4:0] VGA_state;
+	reg [5:0] VGA_state;
 	wire [15:0] pix_data;
 
 	/*state transfer logic*/
@@ -29,7 +30,8 @@ module VGA_Pro (
 				BLACK : VGA_state <= (key_flag) ? RED : BLACK;
 				RED : VGA_state <= (key_flag) ? GREEN : RED;
 				GREEN : VGA_state <= (key_flag) ? MONITOR : GREEN;
-				MONITOR : VGA_state <= (key_flag) ? WHITE : MONITOR;
+				MONITOR : VGA_state <= (key_flag) ? CHAR : MONITOR;
+				CHAR : VGA_state <= (key_flag) ? WHITE : CHAR;
 				default : VGA_state <= WHITE;
 			endcase
 		end

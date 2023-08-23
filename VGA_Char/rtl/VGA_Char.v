@@ -1,4 +1,4 @@
-module VGA_Monitor (
+module VGA_Char (
 	input clk,
 	input rst_n,
 	input key_in,

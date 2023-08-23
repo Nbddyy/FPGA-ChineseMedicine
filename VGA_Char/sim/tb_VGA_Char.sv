@@ -1,6 +1,6 @@
 
 `timescale 1ns/1ps
-module tb_VGA_Monitor (); /* this is automatically generated */
+module tb_VGA_Char (); /* this is automatically generated */
 
 	reg clk;
 	reg rst_n;
@@ -21,7 +21,7 @@ module tb_VGA_Monitor (); /* this is automatically generated */
 	wire        vsync;
 	wire [15:0] rgb;
 
-	VGA_Monitor inst_VGA_Monitor (
+	VGA_Char inst_VGA_Char (
 		.clk(clk),
 		.rst_n(rst_n),
 		.key_in(key_in),

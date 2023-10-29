@@ -13,6 +13,7 @@
 // Revise : 2023-10-28 10:19:07
 // Editor : sublime text4, tab size (4)
 // Descri : 通过FPGA向ADS42LB69配置寄存器，当cnt达到53(index == 52)时停止输出
+// Revise : 增加test_over, 当对ADC芯片配置测试模式完成后后续模块才开始处理接收到的数据
 // -----------------------------------------------------------------------------
 module Fsm_Module 
 #(
@@ -23,14 +24,28 @@ module Fsm_Module
 	input clk,
 	input rst_n,
 	input spi_done,
-	input [1:0] detect_com,		//后续IDELAY配完成信号，用于将ADS42芯片配置输出为正常的标识位
+	input detect_com,		//后续IDELAY配完成信号，用于将ADS42芯片配置输出为正常的标识位
 	input init_comple,
 
 	output reg spi_start,
 	// output [1:0] spi_cmd,
 	output [7:0] spi_width,
-	output reg [7:0] index
+	output reg [7:0] index,
+	output reg test_over	//配置ADC测试模式0~65535的完成标志
 );
+
+	reg detect_com_clap;
+	wire detect_com_latch;
+
+	always @(posedge clk or negedge rst_n) begin
+		if(~rst_n) begin
+			detect_com_clap <= 1'd0;
+		end else begin
+			detect_com_clap <= detect_com;
+		end
+	end
+
+	assign detect_com_latch = detect_com && !detect_com_clap;
 
 	reg [7:0] cnt;	//用来表示输出数据的地址依据
 
@@ -42,7 +57,6 @@ module Fsm_Module
 	reg [2:0] state;
 
 	reg spi_done_latch;
-
 
 	always @(posedge clk or negedge rst_n) begin
     	if(~rst_n) begin
@@ -63,7 +77,7 @@ module Fsm_Module
 			state <= IDLE;
 		end else begin
 			case(state)
-				IDLE : state <= ((spi_done || spi_done_latch) && init_comple) ? WRITE : (detect_com == 2'b11 && init_comple) ? NORMAL : state;
+				IDLE : state <= ((spi_done || spi_done_latch) && init_comple && !detect_com) ? WRITE : (detect_com_latch == 1'd1 && init_comple) ? NORMAL : state;
 				WRITE : state <= IDLE;
 				NORMAL : state <= IDLE;
 				default : state <= IDLE;
@@ -113,6 +127,15 @@ module Fsm_Module
 				NORMAL : index <= cnt_max + 8'd1;
 				default : index <= index;
 			endcase
+		end
+	end
+
+	/*test_over*/
+	always @(posedge clk or negedge rst_n) begin
+		if(~rst_n) begin
+			test_over <= 1'd0;
+		end else begin
+			test_over <= (index == cnt_max && spi_done) ? 1'd1 : test_over;
 		end
 	end
 

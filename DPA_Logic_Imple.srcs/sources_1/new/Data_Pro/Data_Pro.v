@@ -23,7 +23,7 @@ module Data_Pro (
 	input din14_n,
 	
 	output [15:0] dout16,
-	output [1:0] detect_com
+	output [2:0] detect_com
 );
 
 	wire din0;
@@ -86,6 +86,7 @@ module Data_Pro (
 	wire din14_Q2;
 
 	wire clk_out;
+	wire [4:0] CNTVALUEOUT;
 
 	IDDR_Pro inst_IDDR_Pro
 		(
@@ -117,18 +118,24 @@ module Data_Pro (
 			.din14_Q2 (din14_Q2)
 		);
 
+		wire detect_over;
+
 	IDELAY_Pro inst_IDELAY_Pro (
 			.clk        (adc_clk),
 			.refclk     (refclk),
 			.rst_n      (rst_n),
 			.detect_com (detect_com),
-			.clk_out    (clk_out)
+			.clk_out    (clk_out),
+			.CNTVALUEOUT(CNTVALUEOUT),
+			.detect_over(detect_over)
 		);
 
 		Bit_Splice_Detect_Pro inst_Bit_Splice_Detect_Pro
 		(
 			.clk        (adc_clk),
 			.rst_n      (rst_n),
+			.CNTVALUEOUT(CNTVALUEOUT),
+			.detect_over(detect_over),
 			.D0         (din0_Q1),
 			.D1         (din0_Q2),
 			.D2         (din2_Q1),

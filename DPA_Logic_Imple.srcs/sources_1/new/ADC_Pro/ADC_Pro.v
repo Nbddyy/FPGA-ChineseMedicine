@@ -1,8 +1,9 @@
 module ADC_Pro (
 	input clk,
 	input rst_n,  // Asynchronous reset active low
-	input [1:0] detect_com,
+	input detect_com,
 
+	output test_over,
 	output reset,
 	output spi_clk,
 	output cs,
@@ -37,7 +38,8 @@ module ADC_Pro (
 			.init_comple (init_comple),
 			.spi_start   (spi_start),
 			.spi_width   (spi_width),
-			.index       (index)
+			.index       (index),
+			.test_over(test_over)
 		);
 
 	wire [23:0] spi_wrdata;

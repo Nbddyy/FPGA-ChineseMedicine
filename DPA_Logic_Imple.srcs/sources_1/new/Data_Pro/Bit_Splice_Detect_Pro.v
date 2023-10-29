@@ -17,7 +17,9 @@
 module Bit_Splice_Detect_Pro (
 	input clk,    // Clock
 	input rst_n,  // Asynchronous reset active low
-	
+	input [4:0] CNTVALUEOUT,
+	input detect_over,
+
 	input D0,
 	input D1,
 	input D2,
@@ -35,7 +37,7 @@ module Bit_Splice_Detect_Pro (
 	input D14,
 	input D15,
 
-	output reg [1:0] detect_com,
+	output reg [2:0] detect_com,
 	output reg signed [15:0] D16
 );
 	
@@ -43,12 +45,14 @@ module Bit_Splice_Detect_Pro (
 	reg [15:0] cnt_4000;		//延拍相减2000次左右
 	reg detect_com_latch;
 
+	wire [16:0] detect_result;
+
 	/*detect_com_latch用于锁存校准完成*/
 	always @(posedge clk or negedge rst_n) begin
 		if(~rst_n) begin
 			detect_com_latch <= 1'd0;
 		end else begin
-			detect_com_latch <= (detect_com == 2'b11) ? 1'd1 : detect_com_latch;
+			detect_com_latch <= (detect_over) ? 1'd1 : detect_com_latch;
 		end
 	end
 
@@ -86,18 +90,21 @@ module Bit_Splice_Detect_Pro (
 	//[1] express the Bit_Splice_Detect_pro module detect result flag, [0] express detect result
 	always @(posedge clk or negedge rst_n) begin
 		if(~rst_n) begin
-			detect_com <= 2'b00;
+			detect_com <= 3'b000;
 			cnt_4000 <= 16'd0;
 		end else if(cnt_4000 == 16'd4000) begin
-			detect_com <= 2'b11;
+			detect_com <= (CNTVALUEOUT == 5'd31) ? 3'b111 : 3'b011;
 			cnt_4000 <= 16'd0;
 		end else if(cnt_4000 >= 16'd2000 && cnt_4000 < 16'd4000) begin
-			detect_com <= ((D16 - D16_clap) == 1 || (D16 - D16_clap) == 16'hFFFF) ? 2'b00 : 2'b10;
-			cnt_4000 <= ((D16 - D16_clap) == 1 || (D16 - D16_clap) == 16'hFFFF) ? cnt_4000 + 16'd1 : 16'd0;
+			detect_com <= (({1'b0,D16} - {1'b0,D16_clap}) == 1 || ({1'b0,D16} - {1'b0,D16_clap}) == 17'h10001) ? 3'b000 : 3'b010;
+			cnt_4000 <= (({1'b0,D16} - {1'b0,D16_clap}) == 1 || ({1'b0,D16} - {1'b0,D16_clap}) == 17'h10001) ? cnt_4000 + 16'd1 : 16'd0;
 		end else begin
-			detect_com <= 2'b00;
+			detect_com <= (detect_over) ? 3'b100 : 3'b000;
 			cnt_4000 <= (!detect_com_latch) ? cnt_4000 + 16'd1 : 16'd0;
 		end
 	end
+
+	/*方便观察相减结果*/
+	assign detect_result = ({1'b0,D16} - {1'b0,D16_clap});
 
 endmodule

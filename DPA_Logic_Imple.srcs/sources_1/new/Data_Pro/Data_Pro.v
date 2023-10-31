@@ -132,7 +132,7 @@ module Data_Pro (
 
 		Bit_Splice_Detect_Pro inst_Bit_Splice_Detect_Pro
 		(
-			.clk        (adc_clk),
+			.clk        (clk_out),
 			.rst_n      (rst_n),
 			.CNTVALUEOUT(CNTVALUEOUT),
 			.detect_over(detect_over),
